@@ -4,6 +4,10 @@ const cheerio = require('cheerio');
 const countryFlags = require('./countrys_flags');
 const app = express();
 
+app.get("/" ,async(req,res) => {
+  console.log("test")
+})
+
 // Endpoint for getting the IP Address
 app.get('/ip', async (req, res) => {
  axios.get('https://api.ipify.org?format=json')
