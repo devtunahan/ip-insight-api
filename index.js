@@ -80,7 +80,7 @@ app.get('/scan-ports/:ipAddress/:startPort/:endPort', async (req, res) => {
 
 
 // Start the Express server
-const port = 3000; // You can choose any port you prefer
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
