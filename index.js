@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const net = require('net'); // Import the 'net' module
 const countryFlags = require('./countrys_flags');
 const app = express();
 
@@ -56,26 +57,31 @@ app.get('/scan-ports/:ipAddress/:startPort/:endPort', async (req, res) => {
 
   // Perform port scanning
   for (let port = startPort; port <= endPort; port++) {
-    const nc = new netcat().addr(ipAddress).port(port).setTimeout(1000);
+    const socket = new net.Socket();
 
-    nc.on('open', () => {
+    socket.setTimeout(1000);
+
+    socket.on('connect', () => {
       openPorts.push(port);
-      nc.close();
+      socket.destroy();
     });
 
-    nc.on('close', () => {
-      if (port === endPort) {
-        res.json({ openPorts });
-      }
+    socket.on('timeout', () => {
+      socket.destroy();
     });
 
-    nc.on('error', (err) => {
-      console.error(`Error scanning port ${port}: ${err.message}`);
-      nc.close();
+    socket.on('error', (err) => {
+      // Port is closed or inaccessible
+      socket.destroy();
     });
 
-    nc.open();
+    socket.connect(port, ipAddress);
   }
+
+  // Set a timeout to respond with the open ports after a delay (adjust as needed)
+  setTimeout(() => {
+    res.json({ openPorts });
+  }, 2000);
 });
 
 
