@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your API Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        code {
+            font-family: Consolas, Monaco, monospace;
+            font-size: 16px;
+            background-color: #f4f4f4;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .endpoint {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>IP Insight API Documentation</h1>
+    </header>
+
+    <div class="container">
+        <h2>Introduction</h2>
+        <p>
+            Welcome to the documentation for IP Insight API. This documentation provides information on how to use the API endpoints, authentication, request and response formats, and examples.
+        </p>
+
+        <h2>Authentication</h2>
+        <p>
+            To access the API, you will need to authenticate using an API key. You can obtain an API key by registering on our platform.
+        </p>
+
+        <h2>API Endpoints</h2>
+
+        <!-- /ip Endpoint -->
+        <div class="endpoint">
+            <h3>/ip</h3>
+            <p>Retrieves the public IP address of the client making the request.</p>
+            <code>HTTP Method: GET</code><br>
+            <code>Endpoint: /ip</code><br>
+            <code>Example Request:</code><br>
+            <pre>
+                GET /ip
+                Host: yourapi.com
+            </pre>
+            <code>Example Response:</code><br>
+            <pre>
+                HTTP/1.1 200 OK
+                Content-Type: text/plain
+
+                188.204.115.49
+            </pre>
+        </div>
+
+        <!-- /ip/:ipAddress Endpoint -->
+        <div class="endpoint">
+            <h3>/ip/:ipAddress</h3>
+            <p>Retrieves information about a specified IP address, including its location and timezone.</p>
+            <code>HTTP Method: GET</code><br>
+            <code>Endpoint: /ip/:ipAddress</code><br>
+            <code>Parameters: ipAddress (string)</code><br>
+            <code>Example Request:</code><br>
+            <pre>
+                GET /ip/188.204.115.49
+                Host: yourapi.com
+            </pre>
+            <code>Example Response:</code><br>
+            <pre>
+                HTTP/1.1 200 OK
+                Content-Type: application/json
+
+                {
+                    "status":"success",
+                    "country":"Netherlands",
+                    "countryCode":"NL",
+                    "region":"GE",
+                    "regionName":"Gelderland",
+                    "city":"Doetinchem",
+                    "zip":"7001",
+                    "lat":51.9647,
+                    "lon":6.29377,
+                    "timezone":{
+                       "year":2023,
+                       "month":9,
+                       "day":10,
+                       "hour":9,
+                       "minute":16,
+                       "seconds":25,
+                       "milliSeconds":273,
+                       "dateTime":"2023-09-10T09:16:25.273857",
+                       "date":"09/10/2023",
+                       "time":"09:16",
+                       "timeZone":"Europe/Amsterdam",
+                       "dayOfWeek":"Sunday",
+                       "dstActive":true
+                    },
+                    "isp":"KPN B.V.",
+                    "org":"Le Petit Pain",
+                    "as":"AS1136 KPN B.V.",
+                    "query":"188.204.115.49",
+                    "countryFlagSrc":"http://flags.fmcdn.net/data/flags/normal/nl.png"
+                 }
+            </pre>
+        </div>
+
+        <!-- /scan-ports/:ipAddress/:startPort/:endPort Endpoint -->
+        <div class="endpoint">
+            <h3>/scan-ports/:ipAddress/:startPort/:endPort</h3>
+            <p>Scans a range of ports on a specified IP address to check for open ports.</p>
+            <code>HTTP Method: GET</code><br>
+            <code>Endpoint: /scan-ports/:ipAddress/:startPort/:endPort</code><br>
+            <code>Parameters: ipAddress (string), startPort (integer), endPort (integer)</code><br>
+            <code>Example Request:</code><br>
+            <pre>
+                GET /scan-ports/188.204.115.49/80/100
+                Host: 188.204.115.49
+            </pre>
+            <code>Example Response:</code><br>
+            <pre>
+                HTTP/1.1 200 OK
+                Content-Type: application/json
+
+                {
+                    "openPorts": [80, 81, 82]
+                }
+            </pre>
+        </div>
+
+        <!-- Add more endpoint descriptions as needed -->
+
+        <h2>Errors</h2>
+        <p>
+            In case of errors, the API will return appropriate HTTP status codes and error messages in the response body. Here are some common error codes:
+        </p>
+        <ul>
+            <li><strong>400 Bad Request:</strong> Invalid request parameters.</li>
+            <li><strong>401 Unauthorized:</strong> Missing or invalid API key.</li>
+            <li><strong>404 Not Found:</strong> The requested resource does not exist.</li>
+            <li><strong>500 Internal Server Error:</strong> An unexpected error occurred on the server.</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>
+            This documentation provides an overview of your API's endpoints and how to use them. If you have any questions or need further assistance, please contact us at me@tunahan.at
+        </p>
+    </div>
+</body>
+</html>
