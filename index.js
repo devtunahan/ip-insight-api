@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const countryFlags = require('./countrys_flags');
 const app = express();
 
-app.use(express.static('public'));
+app.use(express.static('./'));
 
 
 // Endpoint for getting the IP Address
